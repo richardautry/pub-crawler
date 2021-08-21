@@ -55,10 +55,11 @@ class BeerSpider(scrapy.Spider):
                             return text
             return None
 
-        def extract_value(field_spelling: List[str]) -> [str, None]:
+        def extract_value(field_spelling: List[str], regex: List[str]) -> [str, None]:
             """
             Given a list of spelling options, attempt to extract the value to the expected field name
             :param field_spelling: List of spelling options for a field name i.e. ['ABV', 'Alcohol by Volume', ...]
+            :param regex
             :return:
             """
             # Common symbols that come after the field name
@@ -75,6 +76,7 @@ class BeerSpider(scrapy.Spider):
             additional_spellings = [spelling + symbol for spelling in transformed_spelling for symbol in post_symbols]
             transformed_spelling.extend(additional_spellings)
 
+            # Search by field-value pair (field_name -> parent -> value (as child))
             for spelling in transformed_spelling:
                 abv_selectors = response.xpath(f"//*[text()='{spelling}']")
                 if len(abv_selectors) > 0:
@@ -85,16 +87,23 @@ class BeerSpider(scrapy.Spider):
                             stripped_text = text.strip()
                             if stripped_text and stripped_text.upper() not in transformed_spelling:
                                 return stripped_text
+
+            # Search by regex
+            for pattern in regex:
+                matches = response.xpath(f"//text()").re(pattern)
+                if len(matches) > 0:
+                    return matches[0]
             return None
 
         def extract_style():
             # TODO: Generalize this function to take spellings and return
             style_spelling = ['style', 'beer style']
-            return extract_value(style_spelling)
+            return extract_value(style_spelling, [])
 
         def extract_abv():
             abv_spelling = ['ABV', 'abv', 'alcohol by volume', 'ALCOHOL BY VOLUME', 'ALC. BY VOLUME']
-            return extract_value(abv_spelling)
+            regex = [r'(?:ABV[: ~\xa0-]+)([0-9].*[0-9]*%)']
+            return extract_value(abv_spelling, regex)
 
         # TODO:
         """
