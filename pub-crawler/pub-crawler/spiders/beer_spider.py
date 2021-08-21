@@ -13,9 +13,13 @@ def parse_name_from_url(url: str):
 class BeerSpider(scrapy.Spider):
     name = "beer"
 
+    def __init__(self, url, *args, **kwargs):
+        super(BeerSpider, self).__init__(*args, **kwargs)
+        self.url = url
+
     def start_requests(self):
-        url = "https://northcoastbrewing.com/beers/"
-        yield scrapy.Request(url, self.parse)
+        # url = "https://northcoastbrewing.com/beers/"
+        yield scrapy.Request(self.url, self.parse)
 
     def parse(self, response):
         # TODO: Try re-based search on elements with beer name for abv and get all text
@@ -86,47 +90,14 @@ class BeerSpider(scrapy.Spider):
         def extract_style():
             # TODO: Generalize this function to take spellings and return
             style_spelling = ['style', 'beer style']
-
-            # for spelling in style_spelling:
-            #     style_selectors = response.xpath(f"//*[text()='{spelling}']")
-            #     if len(style_selectors) > 0:
-            #         style_parents = style_selectors[0].xpath(".//..")
-            #         if len(style_parents) > 0:
-            #             style_text = style_parents[0].xpath('.//text()').getall()
-            #             for text in style_text:
-            #                 stripped_text = text.strip()
-            #                 if stripped_text and stripped_text not in style_spelling:
-            #                     return stripped_text
-            # return None
             return extract_value(style_spelling)
 
         def extract_abv():
             abv_spelling = ['ABV', 'abv', 'alcohol by volume', 'ALCOHOL BY VOLUME', 'ALC. BY VOLUME']
-            # abv_spelling = [spelling.upper() for spelling in abv_spelling]
-            # post_symbols = [':']
-            #
-            # # Combine lists of spellings and symbols for additional spelling options
-            # additional_spellings = [spelling + symbol for spelling in abv_spelling for symbol in post_symbols]
-            # abv_spelling.extend(additional_spellings)
-            #
-            # for spelling in abv_spelling:
-            #     abv_selectors = response.xpath(f"//*[text()='{spelling}']")
-            #     if len(abv_selectors) > 0:
-            #         abv_parents = abv_selectors[0].xpath(".//..")
-            #         if len(abv_parents) > 0:
-            #             style_text = abv_parents[0].xpath('.//text()').getall()
-            #             for text in style_text:
-            #                 stripped_text = text.strip()
-            #                 if stripped_text and stripped_text.upper() not in abv_spelling:
-            #                     return stripped_text
-            # return None
             return extract_value(abv_spelling)
 
         # TODO:
         """
-        2. Return 'name' and 'style' data for each beer
-            - This currently works for stone brewing but is not generalized enough for North Coast
-            - However, ABV is scraped easily.
         3. Store data in json format temporarily for POC
         4. Explore other brewery sites and see what gets saved/missed
         5. Look at setting up data pipeline to mongodb instance
