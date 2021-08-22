@@ -112,6 +112,7 @@ class BeerSpider(scrapy.Spider):
         5. Look at setting up data pipeline to mongodb instance
         6. Tests
         7. Traverse links gracefully around DNS errors
+        8. Add `tags` for Style to regex in unstructured text with no "Style" indicator/field_name
         """
 
         yield {
