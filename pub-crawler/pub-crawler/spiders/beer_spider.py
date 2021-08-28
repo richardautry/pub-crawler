@@ -90,7 +90,7 @@ class BeerSpider(scrapy.Spider):
 
             # Search by regex
             for pattern in regex:
-                matches = response.xpath(f"//text()").re(pattern)
+                matches = response.xpath("//text()").re(pattern)
                 if len(matches) > 0:
                     return matches[0]
             return None
@@ -98,6 +98,25 @@ class BeerSpider(scrapy.Spider):
         def extract_style():
             # TODO: Generalize this function to take spellings and return
             style_spelling = ['style', 'beer style']
+            style_tags = ['dark', 'saison', 'red', 'wine', 'barrel', 'aged']
+
+            matches = []
+
+            # TODO: This idea doesn't work yet. It doesn't find styles that exist and picks up a lot of jquery baggage along the way
+            for tag in style_tags:
+                regex_tag = f"(.*{tag}.*)|(.*{tag.upper()}.*)|(.*{tag.title()}.*)"
+                # Add text that includes the given spellings of a style tag
+                # matches.append(extract_value([], [regex_tag]))
+                current_matches = response.xpath("//text()").re(regex_tag)
+                if len(current_matches) > 0:
+                    matches.append(current_matches[0])
+
+            # Collect counts of each
+            counts_dict = {match: matches.count(match) for match in matches}
+
+            if counts_dict:
+                return max(counts_dict, key=counts_dict.get)
+
             return extract_value(style_spelling, [])
 
         def extract_abv():
