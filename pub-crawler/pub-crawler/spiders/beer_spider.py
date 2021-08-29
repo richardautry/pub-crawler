@@ -98,13 +98,40 @@ class BeerSpider(scrapy.Spider):
         def extract_style():
             # TODO: Generalize this function to take spellings and return
             style_spelling = ['style', 'beer style']
-            style_tags = ['dark', 'saison', 'red', 'wine', 'barrel', 'aged']
+            style_tags = [
+                'dark',
+                'saison',
+                'red',
+                'wine',
+                'barrel',
+                'aged',
+                'russian',
+                'imperial',
+                'stout',
+                'lager',
+                'IPA',
+                'india pale ale',
+                'hazy',
+                'pils',
+                'pilsner'
+            ]
 
             matches = []
 
             # TODO: This idea doesn't work yet. It doesn't find styles that exist and picks up a lot of jquery baggage along the way
             for tag in style_tags:
-                regex_tag = f"(.*{tag}.*)|(.*{tag.upper()}.*)|(.*{tag.title()}.*)"
+                # TODO: use this regex to get ride of jQuery: (?!jQuery\.extend)(.*\bdark).*
+                # regex_tag = f"(?!jQuery.extend)(.*\\b{tag}).*|(?!jQuery.extend)(.*\\b{tag.upper()}).*|(?!jQuery.extend)(.*\\b{tag.title()}).*"
+
+                # TODO: More often than not, this is returning a bunch of '' matches. not sure what is happening.
+                original_regex_tag = "(?<!jQuery.)(.*\\b{}).*"
+                regex_tag = original_regex_tag.format(tag)
+                for f in ["upper", "title"]:
+                    altered_regex = original_regex_tag.format(getattr(tag, f)())
+                    regex_tag += f"|{altered_regex}"
+
+                print(f"REGEX TAG: {regex_tag}")
+
                 # Add text that includes the given spellings of a style tag
                 # matches.append(extract_value([], [regex_tag]))
                 current_matches = response.xpath("//text()").re(regex_tag)
@@ -113,6 +140,8 @@ class BeerSpider(scrapy.Spider):
 
             # Collect counts of each
             counts_dict = {match: matches.count(match) for match in matches}
+
+            print(f"COUNTS DICT: {counts_dict}")
 
             if counts_dict:
                 return max(counts_dict, key=counts_dict.get)
