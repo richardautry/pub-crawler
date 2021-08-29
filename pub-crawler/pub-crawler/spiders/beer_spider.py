@@ -124,7 +124,7 @@ class BeerSpider(scrapy.Spider):
                 # regex_tag = f"(?!jQuery.extend)(.*\\b{tag}).*|(?!jQuery.extend)(.*\\b{tag.upper()}).*|(?!jQuery.extend)(.*\\b{tag.title()}).*"
 
                 # TODO: More often than not, this is returning a bunch of '' matches. not sure what is happening.
-                original_regex_tag = "(?<!jQuery.)(.*\\b{}).*"
+                original_regex_tag = "(.*\\b{}).*"
                 regex_tag = original_regex_tag.format(tag)
                 for f in ["upper", "title"]:
                     altered_regex = original_regex_tag.format(getattr(tag, f)())
@@ -136,7 +136,9 @@ class BeerSpider(scrapy.Spider):
                 # matches.append(extract_value([], [regex_tag]))
                 current_matches = response.xpath("//text()").re(regex_tag)
                 if len(current_matches) > 0:
-                    matches.append(current_matches[0])
+                    for current_match in current_matches:
+                        if current_match and "jQuery" not in current_match:
+                            matches.append(current_match)
 
             # Collect counts of each
             counts_dict = {match: matches.count(match) for match in matches}
