@@ -1,6 +1,10 @@
 import scrapy
+import pprint
 from urllib import parse
 from typing import List
+
+
+pp = pprint.PrettyPrinter(indent=4)
 
 
 def parse_name_from_url(url: str):
@@ -103,27 +107,29 @@ class BeerSpider(scrapy.Spider):
                 'saison',
                 'red',
                 'wine',
+                'red wine'
+                'red ale',
+                'flanders red',
                 'barrel',
                 'aged',
+                'barrel aged',
                 'russian',
                 'imperial',
                 'stout',
+                'russian imperial stout',
                 'lager',
                 'IPA',
                 'india pale ale',
                 'hazy',
                 'pils',
-                'pilsner'
+                'pilsner',
+                'gose'
             ]
 
             matches = []
+            found_tags_map = []
 
-            # TODO: This idea doesn't work yet. It doesn't find styles that exist and picks up a lot of jquery baggage along the way
             for tag in style_tags:
-                # TODO: use this regex to get ride of jQuery: (?!jQuery\.extend)(.*\bdark).*
-                # regex_tag = f"(?!jQuery.extend)(.*\\b{tag}).*|(?!jQuery.extend)(.*\\b{tag.upper()}).*|(?!jQuery.extend)(.*\\b{tag.title()}).*"
-
-                # TODO: More often than not, this is returning a bunch of '' matches. not sure what is happening.
                 original_regex_tag = "(.*\\b{}).*"
                 regex_tag = original_regex_tag.format(tag)
                 for f in ["upper", "title"]:
@@ -139,14 +145,27 @@ class BeerSpider(scrapy.Spider):
                     for current_match in current_matches:
                         if current_match and "jQuery" not in current_match:
                             matches.append(current_match)
+                            # Add the found tags to the map to be used in the score function
+                            found_tags_map.append((current_match, tag))
 
             # Collect counts of each
             counts_dict = {match: matches.count(match) for match in matches}
 
-            print(f"COUNTS DICT: {counts_dict}")
-
             if counts_dict:
+                # Calculate score based on tags found and amount of extra text
+                found_tags_dict = {}
+                for text, tag in found_tags_map:
+                    found_tags_dict.setdefault(text, []).append(tag)
+
+                for text in counts_dict.keys():
+                    counts_dict[text] -= len(text) / len(''.join(found_tags_dict[text]))
+
+                print("SCORE DICT")
+                pp.pprint(counts_dict)
+
                 return max(counts_dict, key=counts_dict.get)
+            else:
+                print("WARNING: No style tags found on page!")
 
             return extract_value(style_spelling, [])
 
@@ -162,7 +181,6 @@ class BeerSpider(scrapy.Spider):
         5. Look at setting up data pipeline to mongodb instance
         6. Tests
         7. Traverse links gracefully around DNS errors
-        8. Add `tags` for Style to regex in unstructured text with no "Style" indicator/field_name
         """
 
         yield {
