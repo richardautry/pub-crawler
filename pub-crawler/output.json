@@ -1,0 +1,662 @@
+[
+{
+    "name": "Baltic Porter ",
+    "style": "Created in the Baltic states to replicate the English Porter, the robust\u00a0Baltic Porter\u00a0has a fuller\u00a0body and was brewed with a higher ABV and lager",
+    "ABV": "8.3%"
+},
+{
+    "name": "Graffiti House",
+    "style": "West Coast Style IPA",
+    "ABV": "7.5%"
+},
+{
+    "name": "Pumpkin Pie Bock",
+    "style": "Ingredients: Fauquier County Well Water, Vienna Malt, Munich Malt, Cara-Pils",
+    "ABV": null
+},
+{
+    "name": "Caramel Macchiato",
+    "style": "Stout",
+    "ABV": "5.7%"
+},
+{
+    "name": "Chukker",
+    "style": "Czech Style Pilsner",
+    "ABV": "4.4%"
+},
+{
+    "name": "Irish Oatmeal Stout",
+    "style": "Irish Oatmeal Stout",
+    "ABV": "5.5%"
+},
+{
+    "name": "Wildcat",
+    "style": "India Pale Ale",
+    "ABV": "6.2%"
+},
+{
+    "name": "Gold Cup",
+    "style": "Russian Imperial Stout",
+    "ABV": "10.0%"
+},
+{
+    "name": "Old Bust Head Root Beer",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": "Table Talk ",
+    "style": "Ingredients:\u00a0 Fauquier County Well Water, 2-Row Brewers Malt, Pilsen Malt, Red Wheat Malt, Cara-Pils",
+    "ABV": "5.3%"
+},
+{
+    "name": "Cranberry Lime ",
+    "style": null,
+    "ABV": "4.7%"
+},
+{
+    "name": "Prickly Pear ",
+    "style": null,
+    "ABV": "4.7%"
+},
+{
+    "name": "Orange Creamsicle",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": "Grape ",
+    "style": null,
+    "ABV": "4.7%"
+},
+{
+    "name": "Wild Strawberry",
+    "style": "Wild Strawberry Hard Soda\u00a0starts off with an aroma of bubbly champagne and ripe fruit. This bright red",
+    "ABV": null
+},
+{
+    "name": "View Tree Mtn Dew",
+    "style": null,
+    "ABV": "4.7%"
+},
+{
+    "name": "Pineapple & Pomegranate",
+    "style": null,
+    "ABV": "4.7%"
+},
+{
+    "name": "Strawberry Lemonade ",
+    "style": null,
+    "ABV": "4.7%"
+},
+{
+    "name": "Grapefruit ",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": "Pineapple & Passionfruit ",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": "Black Cherry",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": "Ginger Cranberry",
+    "style": null,
+    "ABV": "4.7%"
+},
+{
+    "name": "Oak Aged Wild Strawberry Bright Prospect",
+    "style": "Oak Aged",
+    "ABV": "10%"
+},
+{
+    "name": "Coconut Coffee Gold Cup",
+    "style": "Russian Imperial Stout",
+    "ABV": null
+},
+{
+    "name": "Cranberry Bright Prospect",
+    "style": "Oak Aged",
+    "ABV": "9.8%"
+},
+{
+    "name": "Chestnut Lawn",
+    "style": "Bourbon Barrel Aged",
+    "ABV": "6%"
+},
+{
+    "name": "The Hollow",
+    "style": "Bourbon Barrel Aged",
+    "ABV": "5.8%"
+},
+{
+    "name": "Chili Chocolate Gold Cup",
+    "style": "Aged",
+    "ABV": "10%"
+},
+{
+    "name": "Chili Chocolate GC ",
+    "style": "Bourbon Barrel Aged",
+    "ABV": null
+},
+{
+    "name": "Sumatra Gold Cup",
+    "style": "Russian Imperial Stout",
+    "ABV": "10.0%"
+},
+{
+    "name": "Sour Cherry Belgian Wit",
+    "style": "Ingredients:\u00a0 Fauquier County Well Water, 2-Row Brewers Malt, Pilsen Malt, Red Wheat Malt, Cara-Pils",
+    "ABV": "5.3%"
+},
+{
+    "name": "Apricot Wildcat",
+    "style": "India Pale Ale",
+    "ABV": "6.2%"
+},
+{
+    "name": "16 Hand Nelson",
+    "style": "India Pale Lager",
+    "ABV": null
+},
+{
+    "name": "Rob Roy",
+    "style": "Ryle Barrel Aged",
+    "ABV": "6.8%"
+},
+{
+    "name": "Cherry Chocolate Gold Cup",
+    "style": "Russian Imperial Stout",
+    "ABV": "10.0%"
+},
+{
+    "name": "Imperial IPA",
+    "style": "Imperial",
+    "ABV": "9.1%"
+},
+{
+    "name": "The Oaks",
+    "style": "Dark",
+    "ABV": "6.8%"
+},
+{
+    "name": "Coconut Gold Cup",
+    "style": "Russian Imperial Stout",
+    "ABV": "10%"
+},
+{
+    "name": "Covert h'Ops  ",
+    "style": "At first glance, Covert h\u2019Ops could easily be confused for our Russian Imperial Stout",
+    "ABV": null
+},
+{
+    "name": "Short Line ",
+    "style": "Saison",
+    "ABV": "6.2%"
+},
+{
+    "name": "Vint Hill Lager",
+    "style": "Vint Hill Lager",
+    "ABV": "3.8%"
+},
+{
+    "name": "Apricot Shorthorn",
+    "style": null,
+    "ABV": "5.9%"
+},
+{
+    "name": "Come to Your Census ",
+    "style": "Red",
+    "ABV": "7.2%"
+},
+{
+    "name": "Winter Lager",
+    "style": "Winter Lager",
+    "ABV": "6.2%"
+},
+{
+    "name": "Leathercoat",
+    "style": "Dark",
+    "ABV": "6.8%"
+},
+{
+    "name": "Rum Barrel Aged Horchata Gold Cup",
+    "style": "Rum Barrel Aged",
+    "ABV": "10%"
+},
+{
+    "name": "Cherry",
+    "style": "Ingredients:\u00a0 Fauquier County Well Water, 2-Row Brewers Malt, Pilsen Malt, Red Wheat Malt, Cara-Pils",
+    "ABV": "5.3%"
+},
+{
+    "name": "Red Wine Barrel Aged ",
+    "style": "Barrel Aged",
+    "ABV": "4.1%"
+},
+{
+    "name": "Aces and 8's",
+    "style": "New England IPA",
+    "ABV": "6.2%"
+},
+{
+    "name": "Passionfruit Guava",
+    "style": "Ingredients:\u00a0 Fauquier County Well Water, 2-Row Brewers Malt, Pilsen Malt, Red Wheat Malt, Cara-Pils",
+    "ABV": "5.3%"
+},
+{
+    "name": "Raspberry",
+    "style": "Ingredients:\u00a0 Fauquier County Well Water, 2-Row Brewers Malt, Pilsen Malt, Red Wheat Malt, Cara-Pils",
+    "ABV": "5.3%"
+},
+{
+    "name": "Mocha Macchiato",
+    "style": "Stout",
+    "ABV": "6%"
+},
+{
+    "name": "Sumerduck Saison",
+    "style": "Sumerduck Saison",
+    "ABV": "5.8%"
+},
+{
+    "name": "Winter White Ale",
+    "style": null,
+    "ABV": "4.4%"
+},
+{
+    "name": "Collaboration IPA with The Answer",
+    "style": "India Pale Ale",
+    "ABV": null
+},
+{
+    "name": "Double Agent ",
+    "style": "Hoppy Pilsner",
+    "ABV": "5.0%"
+},
+{
+    "name": "CasaGose",
+    "style": "Gose",
+    "ABV": "3.8%"
+},
+{
+    "name": "Roots & Neighbors ",
+    "style": "Ginger Saison",
+    "ABV": "5%"
+},
+{
+    "name": "Tropical Daiquiri ",
+    "style": "Gose",
+    "ABV": "3.8%"
+},
+{
+    "name": "Coffee Hill",
+    "style": "Coffee Stout",
+    "ABV": null
+},
+{
+    "name": "Old Jail ",
+    "style": null,
+    "ABV": "5.8%"
+},
+{
+    "name": "S'more Latte",
+    "style": "Stout",
+    "ABV": "5.7%"
+},
+{
+    "name": "Peach Sparkle ",
+    "style": "Double IPA",
+    "ABV": "8%"
+},
+{
+    "name": "Watermelon Saison ",
+    "style": "Watermelon Saison",
+    "ABV": "5.8%"
+},
+{
+    "name": "Cran-Apple Gose",
+    "style": "Cran-Apple Gose",
+    "ABV": "3.8%"
+},
+{
+    "name": "Summer Cherry Wit",
+    "style": "A tart fruited wit brewed with heaps of sweet & sour cherry puree. Orange peel & coriander add subtle spice while wheat and Pils",
+    "ABV": null
+},
+{
+    "name": "Paris & Main",
+    "style": "Paris & Main Bi\u00e8re de Garde is\u00a0a malt-forward farmhouse ale traditionally brewed in Northern France during the colder months to be ready for the spring season. Dark",
+    "ABV": null
+},
+{
+    "name": "Holiday Spiced Gold Cup",
+    "style": "Russian Imperial Stout",
+    "ABV": "10%"
+},
+{
+    "name": "Raspberry Saison",
+    "style": "Raspberry Saison",
+    "ABV": "5.8%"
+},
+{
+    "name": "Flanders Red Ale",
+    "style": "Flanders Red",
+    "ABV": "5.7%"
+},
+{
+    "name": "Rappahannock Rapid ",
+    "style": "IPA",
+    "ABV": "3.2%"
+},
+{
+    "name": "Cherry Vanilla ",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": "Triple Berry Cobbler ",
+    "style": "Imperial",
+    "ABV": "8%"
+},
+{
+    "name": "Made In the Shade ",
+    "style": "IPA",
+    "ABV": "5.5%"
+},
+{
+    "name": "Peppermint Caramel Macchiato ",
+    "style": "Stout",
+    "ABV": "5.7%"
+},
+{
+    "name": "Mango Guava ",
+    "style": null,
+    "ABV": "4.7%"
+},
+{
+    "name": "Summer Wheat",
+    "style": "Fauquier County Well Water, Pilsen Malt, Red",
+    "ABV": "5%"
+},
+{
+    "name": "Sweet Cherry",
+    "style": "Deep malt flavors of dark",
+    "ABV": null
+},
+{
+    "name": "Mango Habanero Certain Swagger ",
+    "style": "Double IPA",
+    "ABV": "8%"
+},
+{
+    "name": "Pineapple Certain Swagger ",
+    "style": "Double IPA",
+    "ABV": "7.9%"
+},
+{
+    "name": "Strawberry Meadows ",
+    "style": "Blond Lager",
+    "ABV": null
+},
+{
+    "name": "Mojito ",
+    "style": "Imperial",
+    "ABV": "8%"
+},
+{
+    "name": "Apple Cinnamon Bright Prospect",
+    "style": "Fauquier County Well Water, Pils",
+    "ABV": "9.8%"
+},
+{
+    "name": "Winter Warmer",
+    "style": "Rich and dark",
+    "ABV": "6.7%"
+},
+{
+    "name": "Doppelbock",
+    "style": "Doppelbock is a full-bodied German lager",
+    "ABV": "8%"
+},
+{
+    "name": "Habanero Vixen",
+    "style": "Irish Style Red",
+    "ABV": "5.4%"
+},
+{
+    "name": "Orange Vanilla Caramel Macchiato ",
+    "style": "Stout",
+    "ABV": "5.7%"
+},
+{
+    "name": "Tart Cherry Saison",
+    "style": "Tart Cherry Saison",
+    "ABV": "5.8%"
+},
+{
+    "name": "Orange Pineapple ",
+    "style": "2-Row Brewers Malt,\u00a0Red",
+    "ABV": "3.8%"
+},
+{
+    "name": "Strawberry Banana ",
+    "style": "Imperial",
+    "ABV": "8%"
+},
+{
+    "name": "Guava Graffiti House ",
+    "style": "West Coast Style IPA",
+    "ABV": "7.5%"
+},
+{
+    "name": "Blackberry ",
+    "style": "2-Row Brewers Malt, Red",
+    "ABV": "4.1%"
+},
+{
+    "name": "Warp Factor ",
+    "style": "Double IPA",
+    "ABV": null
+},
+{
+    "name": "American Mango Pale Ale  ",
+    "style": null,
+    "ABV": "5.9%"
+},
+{
+    "name": "Pineapple Invocation ",
+    "style": "Fauquier county well water, 2-Row,\u00a0 Cara-Pils",
+    "ABV": null
+},
+{
+    "name": "Chocolate Strawberry",
+    "style": "A rich variant of our Baltic Porter brewed with a heaping addition of strawberry puree and layers of dark",
+    "ABV": "8.3%"
+},
+{
+    "name": "Chinquapin Chestnut Porter",
+    "style": "Rich and full bodied, our Chinquapin Chestnut Porter is sure to please fans of more robust beer styles. Every batch of Chinquapin Chestnut Porter is made with a heaping portion of real chestnuts brewed with a blend of dark",
+    "ABV": "5.7%"
+},
+{
+    "name": "Mango Graffiti House ",
+    "style": "West Coast Style IPA",
+    "ABV": "7.5%"
+},
+{
+    "name": "Peach ",
+    "style": "Fauquier County Well Water, Pils",
+    "ABV": "4.1%"
+},
+{
+    "name": "Double Berry",
+    "style": "Fauquier County Well Water, Pils",
+    "ABV": "4.1%"
+},
+{
+    "name": "Pumpkin Spice ",
+    "style": "Imperial",
+    "ABV": "10%"
+},
+{
+    "name": "Galaxy Express ",
+    "style": "Fauquier County Well Water, Pils",
+    "ABV": null
+},
+{
+    "name": "Chocolate Caramel ",
+    "style": "Stout",
+    "ABV": "5.7%"
+},
+{
+    "name": "Limoncello ",
+    "style": "Limoncello Imperial",
+    "ABV": "8%"
+},
+{
+    "name": "Barrel-Aged Raisin Bread ",
+    "style": "Barrel",
+    "ABV": "8.1%"
+},
+{
+    "name": "Invocation ",
+    "style": "Double IPA",
+    "ABV": "8%"
+},
+{
+    "name": "Peach Cobbler",
+    "style": "Imperial",
+    "ABV": null
+},
+{
+    "name": "Belgian Grisette ",
+    "style": "Fauquier County Well Water, Belgian Pilsner",
+    "ABV": null
+},
+{
+    "name": "Blackberry Cobbler",
+    "style": "Imperial",
+    "ABV": null
+},
+{
+    "name": "Hefeweizen ",
+    "style": "Fauquier County Well Water, Pils",
+    "ABV": null
+},
+{
+    "name": "Honey Tripel",
+    "style": "Fauquier County Well Water, Belgian Pils",
+    "ABV": null
+},
+{
+    "name": "Water Dog ",
+    "style": "IPA",
+    "ABV": "5.9%"
+},
+{
+    "name": "Peach Made in the Shade",
+    "style": "IPA",
+    "ABV": null
+},
+{
+    "name": "Blueberry ",
+    "style": "Fauquier County Well Water, Pils",
+    "ABV": null
+},
+{
+    "name": "Oktoberfest",
+    "style": "M\u00e4rzen Lager",
+    "ABV": "5.8%"
+},
+{
+    "name": "Dos Amigos ",
+    "style": "Lager",
+    "ABV": null
+},
+{
+    "name": "Shopping cart",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": "Food Blog",
+    "style": "Sky Meadows Blonde Lager",
+    "ABV": null
+},
+{
+    "name": "Join Our Team",
+    "style": "Old Bust Head Brewing Company is currently seeking outgoing beer enthusiasts to represent our brand at a variety of off-premise samplings. We are looking for brand ambassadors in Richmond, Chesapeake, Newport News, Virginia Beach, and Norfolk. Samplings are generally 3 hours on Friday evenings and mid-morning, early-afternoon on Saturdays and Sundays at these locations: Giant, Harris Teeter, Kroger, Safeway, Shoppers, Total Wine",
+    "ABV": null
+},
+{
+    "name": "Request a donation",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": "Contact Us",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": "Host an Event",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": "\n          Brewery ",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": "News on Brews",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": "Visit Us",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": null,
+    "style": "Red",
+    "ABV": null
+},
+{
+    "name": "Brewery & Taproom",
+    "style": "Old Bust Head Brewing Company is an independent, solar-powered microbrewery in beautiful\u00a0Fauquier\u00a0County, VA west of DC. Our experience brewing traditional ales & lager",
+    "ABV": null
+},
+{
+    "name": "Shop",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": "OUR ",
+    "style": "Photographer, graphic designer, social media guru, customer inquiry response specialist, what more could you ask for?\u00a0 Cara has been with OBH for 6 years - starting as a beertender and now working in the back office, she loves that her job looks a little different every day and stokes her creative fire.\u00a0 When she\u2019s not having a glass of her favorite OBH beer, Tangerine Pineapple Imperial",
+    "ABV": null
+},
+{
+    "name": "New Brew. Old Soul.",
+    "style": "Our experience brewing traditional ales & lager",
+    "ABV": null
+},
+{
+    "name": "Get Old Bust Head beer to your favorite places!",
+    "style": null,
+    "ABV": null
+},
+{
+    "name": null,
+    "style": "@media (prefers-color-scheme: dark",
+    "ABV": null
+}
+]

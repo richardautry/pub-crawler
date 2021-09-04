@@ -1,3 +1,5 @@
+import pathlib
+
 # Scrapy settings for beer project
 #
 # For simplicity, this file contains only settings considered important or
@@ -86,3 +88,10 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+FEEDS = {
+    pathlib.Path('output.json'): {
+        'format': 'json',
+        'indent': 4
+    }
+}
