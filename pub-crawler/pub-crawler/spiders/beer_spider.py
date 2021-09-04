@@ -26,11 +26,6 @@ class BeerSpider(scrapy.Spider):
         yield scrapy.Request(self.url, self.parse)
 
     def parse(self, response):
-        # TODO: Try re-based search on elements with beer name for abv and get all text
-        # for link in response.css("a").xpath("@href").getall():
-        #     yield {
-        #         "href": link.css("href").get()
-        #     }
         links = response.css("a").xpath("@href")
         yield from response.follow_all(links, self.parse_abv)
 
@@ -41,7 +36,6 @@ class BeerSpider(scrapy.Spider):
         :return:
         """
         def extract_name():
-            # TODO: Add check against name in url (parse url ie. 'http://.../red-seal-ale/' -> ['red', 'seal', 'ale']
             name_parts = parse_name_from_url(response.url)
             class_names = ["h1", "h2"]
 
@@ -100,8 +94,9 @@ class BeerSpider(scrapy.Spider):
             return None
 
         def extract_style():
-            # TODO: Generalize this function to take spellings and return
             style_spelling = ['style', 'beer style']
+
+            # TODO: Move tags and META type data to database
             style_tags = [
                 'dark',
                 'saison',
@@ -117,13 +112,24 @@ class BeerSpider(scrapy.Spider):
                 'imperial',
                 'stout',
                 'russian imperial stout',
+                'imperial stout',
                 'lager',
                 'IPA',
                 'india pale ale',
                 'hazy',
                 'pils',
                 'pilsner',
-                'gose'
+                'gose',
+                'porter',
+                'baltic',
+                'baltic porter',
+                'bock',
+                'style',
+                'czech',
+                'czech pilsner',
+                'czech style pilsner',
+                'oatmeal',
+                'oatmeal stout'
             ]
 
             matches = []
@@ -176,11 +182,14 @@ class BeerSpider(scrapy.Spider):
 
         # TODO:
         """
-        3. Store data in json format temporarily for POC
-        4. Explore other brewery sites and see what gets saved/missed
         5. Look at setting up data pipeline to mongodb instance
         6. Tests
         7. Traverse links gracefully around DNS errors
+        8. Refactor `extract_style` to separate out functions by purpose
+        9. Explore spider crashes on long crawls
+        10. Change priority of style extraction: Should be 1. Return field, value 2. Get style by tags
+        11. Work on API layer to turn spider into a service
+        12. Work on spider as a service issues. How will this run? 
         """
 
         yield {
