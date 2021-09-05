@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  flask:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+  celery:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
