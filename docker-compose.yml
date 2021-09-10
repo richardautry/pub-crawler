@@ -1,11 +1,16 @@
-version: "3.8"
+version: "3.7"
 
 services:
   flask:
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./docker/flask/Dockerfile
+    ports:
+      - "5000:5000"
   celery:
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./docker/celery/Dockerfile
+  rabbitmq:
+    image: rabbitmq:3.9.5
+
