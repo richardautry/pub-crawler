@@ -38,7 +38,6 @@ def stringify(obj: Any, serialize_types: List[type]):
     return obj
 
 
-
 @app.route("/get-data", methods=["POST"])
 def get_data():
     assert request.method == "POST"

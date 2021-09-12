@@ -64,9 +64,15 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'beer.pipelines.BeerPipeline': 300,
-#}
+ITEM_PIPELINES = {
+    "pub_crawler.pipelines.MongoDBPipeline": 300,
+}
+
+MONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+MONGO_URI = f"http://{MONGODB_SERVER}:{MONGODB_PORT}"
+MONGODB_DATABASE = "myDatabase"
+MONGODB_COLLECTION = "beer"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
