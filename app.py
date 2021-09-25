@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_pymongo import PyMongo
 from tasks import make_celery
 from scrapy.crawler import CrawlerProcess
+from scrapy.utils.project import get_project_settings
 from pub_crawler.pub_crawler.spiders.beer_spider import BeerSpider
 import json
 from typing import List, Any
@@ -10,9 +11,9 @@ from bson.objectid import ObjectId
 app = Flask(__name__)
 print(app.name)
 app.config.update(
-    CELERY_BROKER_URL='pyamqp://guest@localhost://',
+    CELERY_BROKER_URL='pyamqp://guest@rabbitmq://',
     CELERY_RESULT_BACKEND='rpc://',
-    MONGO_URI='mongodb://localhost:27017/myDatabase'
+    MONGO_URI='mongodb://root:example@mongo:27017/myDatabase'
 )
 mongo = PyMongo(app)
 celery = make_celery(app)
@@ -56,7 +57,19 @@ def home_page():
 
 @celery.task()
 def crawl(url: str):
-    process = CrawlerProcess()
+    process = CrawlerProcess(settings={
+        "BOT_NAME": "pub_crawler",
+        "SPIDER_MODULES": ["pub_crawler.pub_crawler.spiders"],
+        "NEWSPIDER_MODULE": "pub_crawler.pub_crawler.spiders",
+        "ITEM_PIPELINES": {
+            "pub_crawler.pub_crawler.pipelines.MongoDBPipeline": 300,
+        },
+        "MONGODB_SERVER": "mongo",
+        "MONGODB_PORT": 27017,
+        "MONGO_URI": f"mongodb://root:example@mongo:27017",
+        "MONGODB_DATABASE": "myDatabase",
+        "MONGODB_COLLECTION": "beer",
+    })
     process.crawl(BeerSpider, url=url)
     process.start()
     return

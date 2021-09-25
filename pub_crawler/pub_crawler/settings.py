@@ -68,9 +68,9 @@ ITEM_PIPELINES = {
     "pub_crawler.pipelines.MongoDBPipeline": 300,
 }
 
-MONGODB_SERVER = "localhost"
+MONGODB_SERVER = "mongo"
 MONGODB_PORT = 27017
-MONGO_URI = f"http://{MONGODB_SERVER}:{MONGODB_PORT}"
+MONGO_URI = f"mongodb://root:example@{MONGODB_SERVER}:{MONGODB_PORT}"
 MONGODB_DATABASE = "myDatabase"
 MONGODB_COLLECTION = "beer"
 
@@ -95,9 +95,9 @@ MONGODB_COLLECTION = "beer"
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-FEEDS = {
-    pathlib.Path('output.json'): {
-        'format': 'json',
-        'indent': 4
-    }
-}
+# FEEDS = {
+#     pathlib.Path('output.json'): {
+#         'format': 'json',
+#         'indent': 4
+#     }
+# }

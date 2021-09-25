@@ -13,4 +13,10 @@ services:
       dockerfile: ./docker/celery/Dockerfile
   rabbitmq:
     image: rabbitmq:3.9.5
+  mongo:
+    image: mongo:5.0.3
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
 

@@ -21,8 +21,8 @@ class MongoDBPipeline:
     @classmethod
     def from_crawler(cls, crawler):
         return cls(
-            mongo_uri=crawler.settings.get('MONGOO_URI'),
-            mongo_db=crawler.settings.get('MONGO_DATABASE', 'items')
+            mongo_uri=crawler.settings.get('MONGO_URI'),
+            mongo_db=crawler.settings.get('MONGODB_DATABASE', 'items')
         )
 
     def open_spider(self, spider):
@@ -33,6 +33,8 @@ class MongoDBPipeline:
         self.client.close()
 
     def process_item(self, item, spider):
+        print("PROCESSING ITEM")
         self.db[self.collection_name].insert_one(ItemAdapter(item).asdict())
+        print("PROCESSING SUCCESS")
         return item
 
