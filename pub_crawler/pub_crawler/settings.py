@@ -68,6 +68,8 @@ ITEM_PIPELINES = {
     "pub_crawler.pipelines.MongoDBPipeline": 300,
 }
 
+# This is NOT used when launching a crawler from celery
+# TODO: determine where settings should live in container environment
 MONGODB_SERVER = "mongo"
 MONGODB_PORT = 27017
 MONGO_URI = f"mongodb://root:example@{MONGODB_SERVER}:{MONGODB_PORT}"

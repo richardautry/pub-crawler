@@ -2,14 +2,12 @@ from flask import Flask, request
 from flask_pymongo import PyMongo
 from tasks import make_celery
 from scrapy.crawler import CrawlerProcess
-from scrapy.utils.project import get_project_settings
 from pub_crawler.pub_crawler.spiders.beer_spider import BeerSpider
 import json
 from typing import List, Any
 from bson.objectid import ObjectId
 
 app = Flask(__name__)
-print(app.name)
 app.config.update(
     CELERY_BROKER_URL='pyamqp://guest@rabbitmq://',
     CELERY_RESULT_BACKEND='rpc://',

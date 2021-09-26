@@ -22,7 +22,6 @@ class BeerSpider(scrapy.Spider):
         self.url = url
 
     def start_requests(self):
-        # url = "https://northcoastbrewing.com/beers/"
         yield scrapy.Request(self.url, self.parse)
 
     def parse(self, response):
@@ -96,6 +95,12 @@ class BeerSpider(scrapy.Spider):
         def extract_style():
             style_spelling = ['style', 'beer style']
 
+            # First attempt to retrieve style by key, val pair
+            extracted_value = extract_value(style_spelling, [])
+            if extracted_value:
+                return extracted_value
+
+            # Use style tags and regex if as last resort
             # TODO: Move tags and META type data to database
             style_tags = [
                 'dark',
@@ -135,14 +140,13 @@ class BeerSpider(scrapy.Spider):
             matches = []
             found_tags_map = []
 
+            # TODO: Why does this take so long to process and eventually die?
             for tag in style_tags:
                 original_regex_tag = "(.*\\b{}).*"
                 regex_tag = original_regex_tag.format(tag)
                 for f in ["upper", "title"]:
                     altered_regex = original_regex_tag.format(getattr(tag, f)())
                     regex_tag += f"|{altered_regex}"
-
-                print(f"REGEX TAG: {regex_tag}")
 
                 # Add text that includes the given spellings of a style tag
                 # matches.append(extract_value([], [regex_tag]))
@@ -166,14 +170,10 @@ class BeerSpider(scrapy.Spider):
                 for text in counts_dict.keys():
                     counts_dict[text] -= len(text) / len(''.join(found_tags_dict[text]))
 
-                print("SCORE DICT")
-                pp.pprint(counts_dict)
-
                 return max(counts_dict, key=counts_dict.get)
-            else:
-                print("WARNING: No style tags found on page!")
 
-            return extract_value(style_spelling, [])
+            print("WARNING: No style tags found on page!")
+            return None
 
         def extract_abv():
             abv_spelling = ['ABV', 'abv', 'alcohol by volume', 'ALCOHOL BY VOLUME', 'ALC. BY VOLUME']
@@ -188,12 +188,12 @@ class BeerSpider(scrapy.Spider):
         8. Refactor `extract_style` to separate out functions by purpose
         9. Explore spider crashes on long crawls
         10. Change priority of style extraction: Should be 1. Return field, value 2. Get style by tags
-        11. Work on API layer to turn spider into a service
         12. Work on spider as a service issues. How will this run? 
         """
 
         yield {
             'name': extract_name(),
             'style': extract_style(),
-            'ABV': extract_abv()
+            'ABV': extract_abv(),
+            'url': response.url
         }

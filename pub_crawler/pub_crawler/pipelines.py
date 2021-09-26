@@ -33,8 +33,6 @@ class MongoDBPipeline:
         self.client.close()
 
     def process_item(self, item, spider):
-        print("PROCESSING ITEM")
         self.db[self.collection_name].insert_one(ItemAdapter(item).asdict())
-        print("PROCESSING SUCCESS")
         return item
 
