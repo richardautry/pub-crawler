@@ -8,10 +8,12 @@ from typing import List, Any
 from bson.objectid import ObjectId
 
 app = Flask(__name__)
+# TODO: (2021-10-26) Create the root login (or some other login) on MongoDB instance.
 app.config.update(
     CELERY_BROKER_URL='pyamqp://guest@rabbitmq://',
     CELERY_RESULT_BACKEND='rpc://',
-    MONGO_URI='mongodb://root:example@mongo:27017/myDatabase'
+    # TODO: Change this hardcoded ip
+    MONGO_URI='mongodb://root:example@172.31.89.136:27017/myDatabase'
 )
 mongo = PyMongo(app)
 celery = make_celery(app)
