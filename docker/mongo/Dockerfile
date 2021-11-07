@@ -1,7 +1,7 @@
 FROM mongo:5.0.3
 
 ENV MONGO_INITDB_ROOT_USERNAME = "root"
-ENV MONGO_INITDB_ROOT_PASSWORD = "example"
+ENV MONGO_INITDB_ROOT_PASSWORD = "password"
 
 COPY ./home/mongodb /home/mongodb
 COPY ./database/migrations /docker-entrypoint-initdb.d

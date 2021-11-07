@@ -13,7 +13,7 @@ app.config.update(
     CELERY_BROKER_URL='pyamqp://guest@rabbitmq://',
     CELERY_RESULT_BACKEND='rpc://',
     # TODO: Change this hardcoded ip
-    MONGO_URI='mongodb://root:example@172.31.89.136:27017/myDatabase'
+    MONGO_URI='mongodb://root:password@172.31.89.136:27017/myDatabase?authSource=admin'
 )
 mongo = PyMongo(app)
 celery = make_celery(app)
