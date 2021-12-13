@@ -10,7 +10,8 @@ from bson.objectid import ObjectId
 app = Flask(__name__)
 # TODO: (2021-10-26) Create the root login (or some other login) on MongoDB instance.
 app.config.update(
-    CELERY_BROKER_URL='pyamqp://guest@rabbitmq://',
+    # TODO: Change this hardcoded ip for rabbitmq
+    CELERY_BROKER_URL='pyamqp://external:example@172.31.95.23:5672//',
     CELERY_RESULT_BACKEND='rpc://',
     # TODO: Change this hardcoded ip
     MONGO_URI='mongodb://root:password@172.31.89.136:27017/myDatabase?authSource=admin'
