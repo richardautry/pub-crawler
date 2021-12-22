@@ -67,7 +67,7 @@ def crawl(url: str):
         },
         "MONGODB_SERVER": "mongo",
         "MONGODB_PORT": 27017,
-        "MONGO_URI": f"mongodb://root:example@mongo:27017",
+        "MONGO_URI": f"mongodb://root:password@172.31.89.136:27017/myDatabase?authSource=admin",
         "MONGODB_DATABASE": "myDatabase",
         "MONGODB_COLLECTION": "beer",
     })
