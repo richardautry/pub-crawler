@@ -69,7 +69,7 @@ def get_data():
     # TODO: Get DB/Validation to a point where we can use Pydantic. Right now it invalidates loosely defined data
     data = mongo.db.scrapy_items.find()
     # beers = [Beer(**beer_data) for beer_data in data]
-    return json.dumps(stringify(list(data), [ObjectId]))
+    return json.dumps(stringify(list(data), [ObjectId]), indent=4)
     # return json.dumps([beer.dict() for beer in beers])
 
 
