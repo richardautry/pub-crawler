@@ -7,6 +7,7 @@ import json
 from typing import List, Any
 from bson.objectid import ObjectId
 from os import getenv
+from pydantic import BaseModel, parse_obj_as
 
 app = Flask(__name__)
 app.config.update(
@@ -18,10 +19,19 @@ mongo = PyMongo(app)
 celery = make_celery(app)
 
 
+class Beer(BaseModel):
+    _id: ObjectId
+    name: str
+    style: str
+    ABV: str
+    url: str
+
+
 def stringify(obj: Any, serialize_types: List[type]):
     """
     Takes a list of object or dictionary of objects and converts all non-serializable items
     into strings.
+
     :param obj:
     :param serialize_types: obj:
     :return:
@@ -56,8 +66,11 @@ def home_page():
 
 @app.route("/data", methods=["GET"])
 def get_data():
+    # TODO: Get DB/Validation to a point where we can use Pydantic. Right now it invalidates loosely defined data
     data = mongo.db.scrapy_items.find()
+    # beers = [Beer(**beer_data) for beer_data in data]
     return json.dumps(stringify(list(data), [ObjectId]))
+    # return json.dumps([beer.dict() for beer in beers])
 
 
 @celery.task()
