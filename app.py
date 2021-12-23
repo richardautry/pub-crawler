@@ -9,14 +9,9 @@ from bson.objectid import ObjectId
 from os import getenv
 
 app = Flask(__name__)
-# TODO: (2021-10-26) Create the root login (or some other login) on MongoDB instance.
 app.config.update(
-    # TODO: Change this hardcoded ip for rabbitmq
-     # CELERY_BROKER_URL='pyamqp://external:example@172.31.95.23:5672//',
     CELERY_BROKER_URL=getenv('CELERY_BROKER_URL'),
     CELERY_RESULT_BACKEND='rpc://',
-    # TODO: Change this hardcoded ip
-    # MONGO_URI='mongodb://root:password@172.31.89.136:27017/myDatabase?authSource=admin',
     MONGO_URI=getenv('MONGO_URI')
 )
 mongo = PyMongo(app)
@@ -76,8 +71,7 @@ def crawl(url: str):
         },
         "MONGODB_SERVER": "mongo",
         "MONGODB_PORT": 27017,
-        # "MONGO_URI": f"mongodb://root:password@172.31.89.136:27017/myDatabase?authSource=admin",
-        "MONGO_URI": f"{app.config.MONGO_URI}",
+        "MONGO_URI": app.config.MONGO_URI,
         "MONGODB_DATABASE": "myDatabase",
         "MONGODB_COLLECTION": "beer",
     })
