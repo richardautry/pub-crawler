@@ -24,10 +24,6 @@ def extract_name(response: scrapy.http.TextResponse):
             class_text = class_result.xpath(".//text()").getall()
             for text in class_text:
                 matches_found = [name_part.upper() in text.upper() for name_part in name_parts]
-
-                # TODO: This method works decently well, but it completely fails with URLs and names such as the following:
-                # https://northcoastbrewing.com/beers/year-round-beers/pranqster-belgian-style-golden-ale/>
-                # i.e. NAME: Pranqster, STYLE: Belgian..., URL PATH: 'pranqster-belgian...'
                 if any(matches_found):
                     return text
     return None
