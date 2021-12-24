@@ -2,18 +2,23 @@ from pub_crawler.pub_crawler.spiders.beer_spider import *
 from scrapy.http import TextResponse
 import json
 from collections import namedtuple
+from pathlib import Path
 
 
 Website = namedtuple("Website", ["url", "html_filename"])
-with open("./data/websites.json") as websites_file:
+with open(Path.joinpath(Path.cwd(), Path(__file__).parent, "data/websites.json")) as websites_file:
     website_data = json.load(websites_file)
 
 
 for key, val in website_data.items():
     website_data[key] = Website(
         url=val["url"],
-        html_filename=val["html_filename"]
+        html_filename=Path.joinpath(Path.cwd(), Path(__file__).parent, val["html_filename"])
     )
+
+
+def test_parse_name_from_url():
+    pass
 
 
 def test_extract_name():
@@ -53,3 +58,10 @@ def test_extract_style():
     style = extract_style(response)
     assert style == "Belgian Style Golden Ale"
 
+
+def test_extract_abv():
+    pass
+
+
+def test_extract_value():
+    pass
