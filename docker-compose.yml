@@ -4,13 +4,13 @@ services:
   flask:
     build:
       context: .
-      dockerfile: ./docker/flask/Dockerfile
+      dockerfile: ./docker_local/flask/Dockerfile
     ports:
       - "5000:5000"
   celery:
     build:
       context: .
-      dockerfile: ./docker/celery/Dockerfile
+      dockerfile: ./docker_local/celery/Dockerfile
   rabbitmq:
     image: rabbitmq:3.9.5
   mongo:
