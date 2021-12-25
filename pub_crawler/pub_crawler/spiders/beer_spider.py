@@ -7,7 +7,13 @@ from typing import List
 pp = pprint.PrettyPrinter(indent=4)
 
 
-def parse_name_from_url(url: str):
+def parse_name_keywords_from_url(url: str) -> List[str]:
+    """
+    Parses out all name keywords from the end path of the url
+
+    :param url: Standard formatted url string
+    :return: List of all name keywords in the path
+    """
     path = parse.urlparse(url).path
     if path[-1] == '/':
         path = path[:len(path) - 1]
@@ -15,7 +21,7 @@ def parse_name_from_url(url: str):
 
 
 def extract_name(response: scrapy.http.TextResponse):
-    name_parts = parse_name_from_url(response.url)
+    name_parts = parse_name_keywords_from_url(response.url)
     class_names = ["h1", "h2"]
 
     for class_name in class_names:
@@ -119,9 +125,11 @@ def extract_abv(response: scrapy.http.TextResponse):
     return extract_value(response, abv_spelling, regex)
 
 
-def extract_value(response: scrapy.http.TextResponse, field_spelling: List[str], regex: List[str]) -> [str, None]:
+def extract_value(response: scrapy.http.TextResponse, field_spelling: List[str], regex: List[str] = None) -> [str, None]:
     """
     Given a list of spelling options, attempt to extract the value to the expected field name
+
+    :param response: A TextResponse object
     :param field_spelling: List of spelling options for a field name i.e. ['ABV', 'Alcohol by Volume', ...]
     :param regex
     :return:
@@ -153,10 +161,11 @@ def extract_value(response: scrapy.http.TextResponse, field_spelling: List[str],
                         return stripped_text
 
     # Search by regex
-    for pattern in regex:
-        matches = response.xpath("//text()").re(pattern)
-        if len(matches) > 0:
-            return matches[0]
+    if regex:
+        for pattern in regex:
+            matches = response.xpath("//text()").re(pattern)
+            if len(matches) > 0:
+                return matches[0]
     return None
 
 
