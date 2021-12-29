@@ -84,7 +84,7 @@ def crawl(url: str):
         },
         "MONGODB_SERVER": "mongo",
         "MONGODB_PORT": 27017,
-        "MONGO_URI": app.config.MONGO_URI,
+        "MONGO_URI": getenv('MONGO_URI'),
         "MONGODB_DATABASE": "myDatabase",
         "MONGODB_COLLECTION": "beer",
     })
