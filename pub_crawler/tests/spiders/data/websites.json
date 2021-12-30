@@ -10,5 +10,9 @@
   "north_coast_brewing_pranqster_belgian_style_golden_ale": {
     "url": "https://northcoastbrewing.com/beers/year-round-beers/pranqster-belgian-style-golden-ale/",
     "html_filename": "html/north_coast_brewing_pranqster_belgian_style_golden_ale.html"
+  },
+  "ardent_brewing_menu": {
+    "url": "https://ardentcraftales.com/menus",
+    "html_filename": "html/ardent_brewing_menu.html"
   }
 }

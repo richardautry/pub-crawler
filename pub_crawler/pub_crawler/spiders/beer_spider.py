@@ -173,7 +173,7 @@ class BeerSpider(scrapy.Spider):
     name = "beer"
 
     def __init__(self, url, *args, **kwargs):
-        super(BeerSpider, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.url = url
 
     def start_requests(self):
