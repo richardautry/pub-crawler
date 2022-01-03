@@ -2,9 +2,37 @@ import scrapy
 import pprint
 from urllib import parse
 from typing import List
+from bs4 import BeautifulSoup
+import re
 
 
 pp = pprint.PrettyPrinter(indent=4)
+
+
+def get_additional_spellings(word: str, static_segments: [List[str], None] = None, post_symbols: [List[str], None] = None) -> List[str]:
+    # TODO: Some segments should be static (unchanged) like IPA in all caps
+    # How can we ensure one segment is unchanged?
+    # Idea: take slices of all dynamic segments and apply changes, then rebuild
+    # static_index = word.index(static_segment)
+    # static_end = static_index + len(static_segment)
+
+    # Get the start/end indexes of each static segment
+    static_indexes = []
+    for static_segment in static_segments:
+        static_index = word.index(static_segment)
+        static_indexes.append(static_index)
+        static_indexes.append(static_index + len(static_segment))
+
+    # TODO: use function to apply upper to non-static segments only
+
+    spellings = [
+        word,
+        word.upper(),
+        word.title()
+    ]
+    if post_symbols:
+        spellings.extend([word + post_symbol for post_symbol in post_symbols])
+    return spellings
 
 
 def parse_name_keywords_from_url(url: str) -> List[str]:
@@ -169,6 +197,17 @@ def extract_value(response: scrapy.http.TextResponse, field_spelling: List[str],
     return None
 
 
+def correct_elements_exist(div):
+    name = div.find_all(class_=re.compile("name"))
+
+    style_spellings = "|".join(["style", "beer style", "beer-style"])
+    style = div.find_all(class_=re.compile("beer-style"))
+    abv = div.find_all(class_=re.compile("abv"))
+
+    few_elements_found = (0 < len(elements) < 5 for elements in [abv, name, style])
+    return all(few_elements_found)
+
+
 class BeerSpider(scrapy.Spider):
     name = "beer"
 
@@ -197,6 +236,7 @@ class BeerSpider(scrapy.Spider):
         9. Explore spider crashes on long crawls
         10. Change priority of style extraction: Should be 1. Return field, value 2. Get style by tags
         """
+        response_soup = BeautifulSoup(response.text, 'html.parser')
 
         yield {
             'name': extract_name(response),

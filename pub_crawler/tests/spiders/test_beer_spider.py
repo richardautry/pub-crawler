@@ -37,6 +37,15 @@ ARDENT_BREWING_MENU_DATA = website_data["ardent_brewing_menu"]
 
 
 # Tests
+def test_get_additional_spellings():
+    """Tests the `get_additional_spellings` function"""
+    word = "double ipa"
+    expected_spellings = ["Double IPA", "DOUBLE IPA", "double ipa"]
+    actual_spellings = get_additional_spellings(word=word)
+    for spelling in expected_spellings:
+        assert spelling in actual_spellings
+
+
 def test_parse_name_keywords_from_url():
     """Tests the `parse_name_keywords_from_url` function"""
     keywords = parse_name_keywords_from_url(STONE_ENJOY_010122_DATA.url)
