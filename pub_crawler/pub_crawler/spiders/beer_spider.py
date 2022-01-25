@@ -4,35 +4,24 @@ from urllib import parse
 from typing import List
 from bs4 import BeautifulSoup
 import re
+from itertools import product
 
 
 pp = pprint.PrettyPrinter(indent=4)
 
 
-def get_additional_spellings(word: str, static_segments: [List[str], None] = None, post_symbols: [List[str], None] = None) -> List[str]:
-    # TODO: Some segments should be static (unchanged) like IPA in all caps
-    # How can we ensure one segment is unchanged?
-    # Idea: take slices of all dynamic segments and apply changes, then rebuild
-    # static_index = word.index(static_segment)
-    # static_end = static_index + len(static_segment)
+def get_additional_spellings(word: str, post_symbols: [List[str], None] = None) -> List[str]:
+    words = word.split(' ')
 
-    # Get the start/end indexes of each static segment
-    static_indexes = []
-    for static_segment in static_segments:
-        static_index = word.index(static_segment)
-        static_indexes.append(static_index)
-        static_indexes.append(static_index + len(static_segment))
+    spellings = [[word, word.upper(), word.title()] for word in words]
 
-    # TODO: use function to apply upper to non-static segments only
-
-    spellings = [
-        word,
-        word.upper(),
-        word.title()
-    ]
     if post_symbols:
-        spellings.extend([word + post_symbol for post_symbol in post_symbols])
-    return spellings
+        for spelling_list in spellings:
+            spelling_list.extend([word + post_symbol for post_symbol in post_symbols])
+
+    spellings_product = list(product(*spellings))
+
+    return [' '.join(spelling_product) for spelling_product in spellings_product]
 
 
 def parse_name_keywords_from_url(url: str) -> List[str]:
