@@ -7,7 +7,8 @@ import json
 from typing import List, Any
 from bson.objectid import ObjectId
 from os import getenv
-from pydantic import BaseModel, parse_obj_as
+from pydantic import BaseModel
+from urllib.parse import urlparse
 
 app = Flask(__name__)
 app.config.update(
@@ -75,6 +76,7 @@ def get_data():
 
 @celery.task()
 def crawl(url: str):
+    parsed_url = urlparse(url)
     process = CrawlerProcess(settings={
         "BOT_NAME": "pub_crawler",
         "SPIDER_MODULES": ["pub_crawler.pub_crawler.spiders"],
@@ -87,8 +89,17 @@ def crawl(url: str):
         "MONGO_URI": getenv('MONGO_URI'),
         "MONGODB_DATABASE": "myDatabase",
         "MONGODB_COLLECTION": "beer",
+        "AUTOTHROTTLE_ENABLED": True,
+        "AUTOTHROTTLE_START_DELAY": 5,
+        "AUTOTHROTTLE_MAX_DELAY": 60,
+        "AUTOTHROTTLE_TARGET_CONCURRENCY": 1.0,
+        "AUTOTHROTTLE_DEBUG": True,
+        "DOWNLOAD_TIMEOUT": 10,
+        "RETRY_ENABLED": False,
+        "COOKIES_ENABLE": False,
+        "REDIRECT_ENABLED": False
     })
-    process.crawl(BeerSpider, url=url)
+    process.crawl(BeerSpider, url=url, allowed_domains=[parsed_url.hostname])
     process.start()
     return
 

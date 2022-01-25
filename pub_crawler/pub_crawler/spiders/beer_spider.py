@@ -2,9 +2,26 @@ import scrapy
 import pprint
 from urllib import parse
 from typing import List
+from bs4 import BeautifulSoup
+import re
+from itertools import product
 
 
 pp = pprint.PrettyPrinter(indent=4)
+
+
+def get_additional_spellings(word: str, post_symbols: [List[str], None] = None) -> List[str]:
+    words = word.split(' ')
+
+    spellings = [[word, word.upper(), word.title()] for word in words]
+
+    if post_symbols:
+        for spelling_list in spellings:
+            spelling_list.extend([word + post_symbol for post_symbol in post_symbols])
+
+    spellings_product = list(product(*spellings))
+
+    return [' '.join(spelling_product) for spelling_product in spellings_product]
 
 
 def parse_name_keywords_from_url(url: str) -> List[str]:
@@ -169,11 +186,22 @@ def extract_value(response: scrapy.http.TextResponse, field_spelling: List[str],
     return None
 
 
+def correct_elements_exist(div):
+    name = div.find_all(class_=re.compile("name"))
+
+    style_spellings = "|".join(["style", "beer style", "beer-style"])
+    style = div.find_all(class_=re.compile("beer-style"))
+    abv = div.find_all(class_=re.compile("abv"))
+
+    few_elements_found = (0 < len(elements) < 5 for elements in [abv, name, style])
+    return all(few_elements_found)
+
+
 class BeerSpider(scrapy.Spider):
     name = "beer"
 
     def __init__(self, url, *args, **kwargs):
-        super(BeerSpider, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.url = url
 
     def start_requests(self):
@@ -197,6 +225,7 @@ class BeerSpider(scrapy.Spider):
         9. Explore spider crashes on long crawls
         10. Change priority of style extraction: Should be 1. Return field, value 2. Get style by tags
         """
+        response_soup = BeautifulSoup(response.text, 'html.parser')
 
         yield {
             'name': extract_name(response),

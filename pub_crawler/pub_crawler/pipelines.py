@@ -1,5 +1,4 @@
 import pymongo
-from itemadapter import ItemAdapter
 
 # Define your item pipelines here
 #
@@ -9,6 +8,7 @@ from itemadapter import ItemAdapter
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+from scrapy.exceptions import DropItem
 
 
 class MongoDBPipeline:
@@ -33,6 +33,10 @@ class MongoDBPipeline:
         self.client.close()
 
     def process_item(self, item, spider):
-        self.db[self.collection_name].insert_one(ItemAdapter(item).asdict())
-        return item
+        adapter = ItemAdapter(item)
+        if all((val for _, val in adapter.items())):
+            self.db[self.collection_name].insert_one(ItemAdapter(item).asdict())
+            return item
+        else:
+            raise DropItem(f"Missing value in {item}")
 

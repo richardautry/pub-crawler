@@ -33,9 +33,19 @@ def get_response(website: Website):
 STONE_ENJOY_010122_DATA = website_data["stonebrewing_stone_enjoy_010122_ufiltered_ipa"]
 STONE_IPA_DATA = website_data["stonebrewing_stone_ipa"]
 NORTH_COAST_PRANQSTER_DATA = website_data["north_coast_brewing_pranqster_belgian_style_golden_ale"]
+ARDENT_BREWING_MENU_DATA = website_data["ardent_brewing_menu"]
 
 
 # Tests
+def test_get_additional_spellings():
+    """Tests the `get_additional_spellings` function"""
+    word = "double ipa"
+    expected_spellings = ["Double IPA", "DOUBLE IPA", "double ipa"]
+    actual_spellings = get_additional_spellings(word=word)
+    for spelling in expected_spellings:
+        assert spelling in actual_spellings
+
+
 def test_parse_name_keywords_from_url():
     """Tests the `parse_name_keywords_from_url` function"""
     keywords = parse_name_keywords_from_url(STONE_ENJOY_010122_DATA.url)
@@ -58,6 +68,10 @@ def test_extract_name():
     response = get_response(STONE_IPA_DATA)
     name = extract_name(response)
     assert name == "Stone IPA"
+
+    response = get_response(ARDENT_BREWING_MENU_DATA)
+    name = extract_name(response)
+    assert name == "Altbier"
 
 
 def test_extract_style():
