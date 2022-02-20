@@ -10,8 +10,10 @@ from itertools import product
 pp = pprint.PrettyPrinter(indent=4)
 
 
-def get_additional_spellings(word: str, post_symbols: [List[str], None] = None) -> List[str]:
-    words = word.split(' ')
+def get_additional_spellings(
+    word: str, post_symbols: [List[str], None] = None
+) -> List[str]:
+    words = word.split(" ")
 
     spellings = [[word, word.upper(), word.title()] for word in words]
 
@@ -21,7 +23,20 @@ def get_additional_spellings(word: str, post_symbols: [List[str], None] = None) 
 
     spellings_product = list(product(*spellings))
 
-    return [' '.join(spelling_product) for spelling_product in spellings_product]
+    return [" ".join(spelling_product) for spelling_product in spellings_product]
+
+
+def remove_text_noise(text: str, remove_values: List[str] = None):
+    """class="beer
+    Returns the first trimmed line of any text blob
+    :param text: Some string that may have multiple lines or white
+    :param remove_values: Values that should be removed and not considered in the result
+    :return:
+    """
+    if remove_values:
+        for remove_value in remove_values:
+            text = text.replace(remove_value, "")
+    return text.strip().split("\n")[0].strip()
 
 
 def parse_name_keywords_from_url(url: str) -> List[str]:
@@ -32,9 +47,9 @@ def parse_name_keywords_from_url(url: str) -> List[str]:
     :return: List of all name keywords in the path
     """
     path = parse.urlparse(url).path
-    if path[-1] == '/':
-        path = path[:len(path) - 1]
-    return path.split('/')[-1].split('-')
+    if path[-1] == "/":
+        path = path[: len(path) - 1]
+    return path.split("/")[-1].split("-")
 
 
 def extract_name(response: scrapy.http.TextResponse):
@@ -46,14 +61,16 @@ def extract_name(response: scrapy.http.TextResponse):
         for class_result in class_results:
             class_text = class_result.xpath(".//text()").getall()
             for text in class_text:
-                matches_found = [name_part.upper() in text.upper() for name_part in name_parts]
+                matches_found = [
+                    name_part.upper() in text.upper() for name_part in name_parts
+                ]
                 if any(matches_found):
                     return text
     return None
 
 
 def extract_style(response: scrapy.http.TextResponse):
-    style_spelling = ['style', 'beer style']
+    style_spelling = ["style", "beer style"]
 
     # First attempt to retrieve style by key, val pair
     extracted_value = extract_value(response, style_spelling, [])
@@ -63,38 +80,37 @@ def extract_style(response: scrapy.http.TextResponse):
     # Use style tags and regex if as last resort
     # TODO: Move tags and META type data to database
     style_tags = [
-        'dark',
-        'saison',
-        'red',
-        'wine',
-        'red wine'
-        'red ale',
-        'flanders red',
-        'barrel',
-        'aged',
-        'barrel aged',
-        'russian',
-        'imperial',
-        'stout',
-        'russian imperial stout',
-        'imperial stout',
-        'lager',
-        'IPA',
-        'india pale ale',
-        'hazy',
-        'pils',
-        'pilsner',
-        'gose',
-        'porter',
-        'baltic',
-        'baltic porter',
-        'bock',
-        'style',
-        'czech',
-        'czech pilsner',
-        'czech style pilsner',
-        'oatmeal',
-        'oatmeal stout'
+        "dark",
+        "saison",
+        "red",
+        "wine",
+        "red wine" "red ale",
+        "flanders red",
+        "barrel",
+        "aged",
+        "barrel aged",
+        "russian",
+        "imperial",
+        "stout",
+        "russian imperial stout",
+        "imperial stout",
+        "lager",
+        "IPA",
+        "india pale ale",
+        "hazy",
+        "pils",
+        "pilsner",
+        "gose",
+        "porter",
+        "baltic",
+        "baltic porter",
+        "bock",
+        "style",
+        "czech",
+        "czech pilsner",
+        "czech style pilsner",
+        "oatmeal",
+        "oatmeal stout",
     ]
 
     matches = []
@@ -128,7 +144,7 @@ def extract_style(response: scrapy.http.TextResponse):
             found_tags_dict.setdefault(text, []).append(tag)
 
         for text in counts_dict.keys():
-            counts_dict[text] -= len(text) / len(''.join(found_tags_dict[text]))
+            counts_dict[text] -= len(text) / len("".join(found_tags_dict[text]))
 
         return max(counts_dict, key=counts_dict.get)
 
@@ -137,12 +153,22 @@ def extract_style(response: scrapy.http.TextResponse):
 
 
 def extract_abv(response: scrapy.http.TextResponse):
-    abv_spelling = ['ABV', 'abv', 'alcohol by volume', 'ALCOHOL BY VOLUME', 'ALC. BY VOLUME']
-    regex = [r'(?:ABV[: ~\xa0-]+)([0-9].*[0-9]*%)']
+    abv_spelling = [
+        "ABV",
+        "abv",
+        "alcohol by volume",
+        "ALCOHOL BY VOLUME",
+        "ALC. BY VOLUME",
+    ]
+    regex = [r"(?:ABV[: ~\xa0-]+)([0-9].*[0-9]*%)"]
     return extract_value(response, abv_spelling, regex)
 
 
-def extract_value(response: scrapy.http.TextResponse, field_spelling: List[str], regex: List[str] = None) -> [str, None]:
+def extract_value(
+    response: scrapy.http.TextResponse,
+    field_spelling: List[str],
+    regex: List[str] = None,
+) -> [str, None]:
     """
     Given a list of spelling options, attempt to extract the value to the expected field name
 
@@ -152,7 +178,7 @@ def extract_value(response: scrapy.http.TextResponse, field_spelling: List[str],
     :return:
     """
     # Common symbols that come after the field name
-    post_symbols = [':']
+    post_symbols = [":"]
 
     # Change spelling to upper for comparison
     transformed_spelling = [spelling.upper() for spelling in field_spelling]
@@ -162,7 +188,11 @@ def extract_value(response: scrapy.http.TextResponse, field_spelling: List[str],
     transformed_spelling.extend(title_spelling)
 
     # Combine with symbols for optional spellings
-    additional_spellings = [spelling + symbol for spelling in transformed_spelling for symbol in post_symbols]
+    additional_spellings = [
+        spelling + symbol
+        for spelling in transformed_spelling
+        for symbol in post_symbols
+    ]
     transformed_spelling.extend(additional_spellings)
 
     # Search by field-value pair (field_name -> parent -> value (as child))
@@ -171,10 +201,13 @@ def extract_value(response: scrapy.http.TextResponse, field_spelling: List[str],
         if len(abv_selectors) > 0:
             abv_parents = abv_selectors[0].xpath(".//..")
             if len(abv_parents) > 0:
-                style_text = abv_parents[0].xpath('.//text()').getall()
+                style_text = abv_parents[0].xpath(".//text()").getall()
                 for text in style_text:
                     stripped_text = text.strip()
-                    if stripped_text and stripped_text.upper() not in transformed_spelling:
+                    if (
+                        stripped_text
+                        and stripped_text.upper() not in transformed_spelling
+                    ):
                         return stripped_text
 
     # Search by regex
@@ -187,7 +220,7 @@ def extract_value(response: scrapy.http.TextResponse, field_spelling: List[str],
 
 
 def correct_elements_exist(div):
-    name = div.find_all(class_=re.compile("name"))
+    name = div.find_all(class_=re.compile("beer-title"))
 
     style_spellings = "|".join(["style", "beer style", "beer-style"])
     style = div.find_all(class_=re.compile("beer-style"))
@@ -211,7 +244,8 @@ class BeerSpider(scrapy.Spider):
         links = response.css("a").xpath("@href")
         yield from response.follow_all(links, self.parse_abv)
 
-    def parse_abv(self, response):
+    @staticmethod
+    def parse_abv(response):
         """
         Basic method for finding abv in all links
         :param response:
@@ -225,11 +259,31 @@ class BeerSpider(scrapy.Spider):
         9. Explore spider crashes on long crawls
         10. Change priority of style extraction: Should be 1. Return field, value 2. Get style by tags
         """
-        response_soup = BeautifulSoup(response.text, 'html.parser')
+        response_soup = BeautifulSoup(response.text, "html.parser")
+        candidates = response_soup.find_all(correct_elements_exist)
+        data = []
+        for candidate in candidates:
+            d = {
+                "name": remove_text_noise(
+                    candidate.find(class_=re.compile("name")).text,
+                    remove_values=["name", "title"]
+                ),
+                "style": remove_text_noise(
+                    candidate.find(class_=re.compile("beer-style")).text,
+                    remove_values=["style", "Style", "Beer Style"]
+                ),
+                "abv": remove_text_noise(
+                    candidate.find(class_=re.compile("abv")).text,
+                    remove_values=["abv", "ABV"]
+                ),
+            }
+            if d not in data:
+                data.append(d)
+                yield d
 
-        yield {
-            'name': extract_name(response),
-            'style': extract_style(response),
-            'ABV': extract_abv(response),
-            'url': response.url
-        }
+        # yield {
+        #     'name': extract_name(response),
+        #     'style': extract_style(response),
+        #     'ABV': extract_abv(response),
+        #     'url': response.url
+        # }

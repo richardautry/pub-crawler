@@ -12,9 +12,9 @@ from urllib.parse import urlparse
 
 app = Flask(__name__)
 app.config.update(
-    CELERY_BROKER_URL=getenv('CELERY_BROKER_URL'),
-    CELERY_RESULT_BACKEND='rpc://',
-    MONGO_URI=getenv('MONGO_URI')
+    CELERY_BROKER_URL=getenv("CELERY_BROKER_URL"),
+    CELERY_RESULT_BACKEND="rpc://",
+    MONGO_URI=getenv("MONGO_URI"),
 )
 mongo = PyMongo(app)
 celery = make_celery(app)
@@ -53,10 +53,7 @@ def stringify(obj: Any, serialize_types: List[type]):
 def crawl():
     assert request.method == "POST"
     crawl.delay(request.json["url"])
-    return {
-        "url": request.json["url"],
-        "msg": "Starting Crawl..."
-    }
+    return {"url": request.json["url"], "msg": "Starting Crawl..."}
 
 
 @app.route("/")
@@ -77,29 +74,30 @@ def get_data():
 @celery.task()
 def crawl(url: str):
     parsed_url = urlparse(url)
-    process = CrawlerProcess(settings={
-        "BOT_NAME": "pub_crawler",
-        "SPIDER_MODULES": ["pub_crawler.pub_crawler.spiders"],
-        "NEWSPIDER_MODULE": "pub_crawler.pub_crawler.spiders",
-        "ITEM_PIPELINES": {
-            "pub_crawler.pub_crawler.pipelines.MongoDBPipeline": 300,
-        },
-        "MONGODB_SERVER": "mongo",
-        "MONGODB_PORT": 27017,
-        "MONGO_URI": getenv('MONGO_URI'),
-        "MONGODB_DATABASE": "myDatabase",
-        "MONGODB_COLLECTION": "beer",
-        "AUTOTHROTTLE_ENABLED": True,
-        "AUTOTHROTTLE_START_DELAY": 5,
-        "AUTOTHROTTLE_MAX_DELAY": 60,
-        "AUTOTHROTTLE_TARGET_CONCURRENCY": 1.0,
-        "AUTOTHROTTLE_DEBUG": True,
-        "DOWNLOAD_TIMEOUT": 10,
-        "RETRY_ENABLED": False,
-        "COOKIES_ENABLE": False,
-        "REDIRECT_ENABLED": False
-    })
+    process = CrawlerProcess(
+        settings={
+            "BOT_NAME": "pub_crawler",
+            "SPIDER_MODULES": ["pub_crawler.pub_crawler.spiders"],
+            "NEWSPIDER_MODULE": "pub_crawler.pub_crawler.spiders",
+            "ITEM_PIPELINES": {
+                "pub_crawler.pub_crawler.pipelines.MongoDBPipeline": 300,
+            },
+            "MONGODB_SERVER": "mongo",
+            "MONGODB_PORT": 27017,
+            "MONGO_URI": getenv("MONGO_URI"),
+            "MONGODB_DATABASE": "myDatabase",
+            "MONGODB_COLLECTION": "beer",
+            "AUTOTHROTTLE_ENABLED": True,
+            "AUTOTHROTTLE_START_DELAY": 5,
+            "AUTOTHROTTLE_MAX_DELAY": 60,
+            "AUTOTHROTTLE_TARGET_CONCURRENCY": 1.0,
+            "AUTOTHROTTLE_DEBUG": True,
+            "DOWNLOAD_TIMEOUT": 10,
+            "RETRY_ENABLED": False,
+            "COOKIES_ENABLE": False,
+            "REDIRECT_ENABLED": False,
+        }
+    )
     process.crawl(BeerSpider, url=url, allowed_domains=[parsed_url.hostname])
     process.start()
     return
-

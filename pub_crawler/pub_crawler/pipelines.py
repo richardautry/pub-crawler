@@ -12,7 +12,7 @@ from scrapy.exceptions import DropItem
 
 
 class MongoDBPipeline:
-    collection_name = 'scrapy_items'
+    collection_name = "scrapy_items"
 
     def __init__(self, mongo_uri, mongo_db):
         self.mongo_uri = mongo_uri
@@ -21,8 +21,8 @@ class MongoDBPipeline:
     @classmethod
     def from_crawler(cls, crawler):
         return cls(
-            mongo_uri=crawler.settings.get('MONGO_URI'),
-            mongo_db=crawler.settings.get('MONGODB_DATABASE', 'items')
+            mongo_uri=crawler.settings.get("MONGO_URI"),
+            mongo_db=crawler.settings.get("MONGODB_DATABASE", "items"),
         )
 
     def open_spider(self, spider):
@@ -39,4 +39,3 @@ class MongoDBPipeline:
             return item
         else:
             raise DropItem(f"Missing value in {item}")
-
