@@ -220,7 +220,7 @@ def extract_value(
 
 
 def correct_elements_exist(div):
-    name = div.find_all(class_=re.compile("beer-title"))
+    name = div.find_all(class_=re.compile("beer-title|beer-name"))
 
     style_spellings = "|".join(["style", "beer style", "beer-style"])
     style = div.find_all(class_=re.compile("beer-style"))
@@ -265,7 +265,7 @@ class BeerSpider(scrapy.Spider):
         for candidate in candidates:
             d = {
                 "name": remove_text_noise(
-                    candidate.find(class_=re.compile("name")).text,
+                    candidate.find(class_=re.compile("beer-title|beer-name")).text,
                     remove_values=["name", "title"]
                 ),
                 "style": remove_text_noise(

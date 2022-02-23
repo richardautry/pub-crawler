@@ -266,3 +266,32 @@ def test_parse_abv_stone_ipa():
                 assert (
                     data == expected_data[expected_beer_name]
                 ), "The extracted beer data does not match expected"
+
+
+def test_parse_abv_should_return_north_coast_belgian_ale_data():
+    response = get_response(NORTH_COAST_PRANQSTER_DATA)
+    scraped_data = list(BeerSpider.parse_abv(response))
+
+    expected_data = {
+        "PranQster": {
+            "abv": "7.6%",
+            "name": "PranQster",
+            "style": "Belgian Style Golden Ale"
+        }
+    }
+
+    value_names = [data["name"] for data in scraped_data]
+
+    # assert value_names[0] == "Stone IPA"
+
+    for expected_beer_name in list(expected_data.keys()):
+        assert (
+                expected_beer_name in value_names
+        ), f"{expected_beer_name} not found on the PranQster site."
+        for data in scraped_data:
+            if data["name"] == expected_beer_name:
+                assert (
+                        data == expected_data[expected_beer_name]
+                ), "The extracted beer data does not match expected"
+
+
