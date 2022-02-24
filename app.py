@@ -95,7 +95,7 @@ def crawl(url: str):
             "DOWNLOAD_TIMEOUT": 10,
             "RETRY_ENABLED": False,
             "COOKIES_ENABLE": False,
-            "REDIRECT_ENABLED": False,
+            "REDIRECT_ENABLED": True,
         }
     )
     process.crawl(BeerSpider, url=url, allowed_domains=[parsed_url.hostname])

@@ -133,7 +133,8 @@ def test_parse_abv_ardent():
     :return:
     """
     response = get_response(ARDENT_BREWING_MENU_DATA)
-    value_gen = BeerSpider.parse_abv(response)
+    beer_spider = BeerSpider(ARDENT_BREWING_MENU_DATA.url)
+    value_gen = beer_spider.parse_abv(response)
 
     expected_data = {
         "Altbier": {"name": "Altbier", "style": "Altbier", "abv": "5% ABV"},

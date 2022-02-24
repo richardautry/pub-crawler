@@ -244,8 +244,7 @@ class BeerSpider(scrapy.Spider):
         links = response.css("a").xpath("@href")
         yield from response.follow_all(links, self.parse_abv)
 
-    @staticmethod
-    def parse_abv(response):
+    def parse_abv(self, response):
         """
         Basic method for finding abv in all links
         :param response:
@@ -259,9 +258,24 @@ class BeerSpider(scrapy.Spider):
         9. Explore spider crashes on long crawls
         10. Change priority of style extraction: Should be 1. Return field, value 2. Get style by tags
         """
+        self.logger.info("Parse function called on %s", response.url)
         response_soup = BeautifulSoup(response.text, "html.parser")
+
+        # TODO: No candidates because javascript is not loading untappd data
+        # Docs say I may need to use Splash to make this work...
+        # https://docs.scrapy.org/en/latest/topics/dynamic-content.html
+        # https://github.com/scrapinghub/splash
+        # https://github.com/scrapy-plugins/scrapy-splash
         candidates = response_soup.find_all(correct_elements_exist)
+        self.logger.info("CANDIDATES: %s", candidates)
         data = []
+
+        # TODO:
+        """
+        Biggest issue here is that the beer stats are somewhat standard (Style, ABV, IBUs)
+        But the beer name is a complete wildcard, it could be a header, labeled in a list, or using "beer title" class
+        
+        """
         for candidate in candidates:
             d = {
                 "name": remove_text_noise(
@@ -279,11 +293,14 @@ class BeerSpider(scrapy.Spider):
             }
             if d not in data:
                 data.append(d)
+                self.logger.info("YIELDING %s", d)
                 yield d
 
-        # yield {
-        #     'name': extract_name(response),
-        #     'style': extract_style(response),
-        #     'ABV': extract_abv(response),
-        #     'url': response.url
-        # }
+        # These functions are too expensive and hold up the spider for a significant time
+        # Do not use unless substantially refactored for performance
+        # if len(data) == 0:
+        #     yield {
+        #         'name': extract_name(response),
+        #         'style': extract_style(response),
+        #         'abv': extract_abv(response),
+        #     }
