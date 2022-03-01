@@ -18,5 +18,10 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
+  splash:
+    image: scrapinghub/splash
+    ports:
+      - "8050:8050"
+    command: "rm scrapinghub/splash"
 
 

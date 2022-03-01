@@ -95,6 +95,7 @@ queuelib==1.6.1
 requests==2.26.0
 requests-unixsocket==0.2.0
 Scrapy==2.5.1
+scrapy-splash==0.8.0
 Send2Trash==1.8.0
 service-identity==21.1.0
 six==1.16.0

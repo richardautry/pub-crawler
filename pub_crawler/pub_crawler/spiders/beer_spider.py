@@ -5,6 +5,7 @@ from typing import List
 from bs4 import BeautifulSoup
 import re
 from itertools import product
+from scrapy_splash import SplashRequest
 
 
 pp = pprint.PrettyPrinter(indent=4)
@@ -238,11 +239,15 @@ class BeerSpider(scrapy.Spider):
         self.url = url
 
     def start_requests(self):
-        yield scrapy.Request(self.url, self.parse)
+        # TODO: Change back to original to parse all resulting links
+        # yield SplashRequest(self.url, self.parse)
+        yield SplashRequest(self.url, self.parse_abv)
 
     def parse(self, response):
         links = response.css("a").xpath("@href")
-        yield from response.follow_all(links, self.parse_abv)
+        for link in links:
+            # yield from response.follow_all(links, self.parse_abv)
+            yield SplashRequest(response.urljoin(link.get()), self.parse_abv)
 
     def parse_abv(self, response):
         """
@@ -259,7 +264,28 @@ class BeerSpider(scrapy.Spider):
         10. Change priority of style extraction: Should be 1. Return field, value 2. Get style by tags
         """
         self.logger.info("Parse function called on %s", response.url)
-        response_soup = BeautifulSoup(response.text, "html.parser")
+        response_soup = BeautifulSoup(response.body, "html.parser")
+
+        # TODO:
+        """
+        There is some disconnect here between the return from splash (which should be `response.body`
+        and what beautiful soup expects. bs4 does not seem to be able to parse out anything 
+        from the resulting render.
+        """
+        names = response_soup.find_all(class_=re.compile("beer-title|beer-name"))
+        names_text = [name.text for name in names]
+        self.logger.info("%s: all names: %s", response.url, names_text)
+        self.logger.info(response.text[:100])
+        self.logger.info(response.body[:100])
+        """
+        Issues found in logs here, response.text is a string. reponse.body is bstring
+        celery_1    | [2022-03-01 03:03:23,509: INFO/ForkPoolWorker-8] <!DOCTYPE html><html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.c
+        celery_1    | [2022-03-01 03:03:23,509: WARNING/ForkPoolWorker-8] 2022-03-01 03:03:23 [beer] INFO: <!DOCTYPE html><html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.c
+        celery_1    | 
+        celery_1    | [2022-03-01 03:03:23,510: INFO/ForkPoolWorker-8] b'<!DOCTYPE html><html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.c'
+        celery_1    | [2022-03-01 03:03:23,510: WARNING/ForkPoolWorker-8] 2022-03-01 03:03:23 [beer] INFO: b'<!DOCTYPE html><html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.c'
+        """
+        # self.logger.info("%s: response_soup: %s", response.url, response_soup.text)
 
         # TODO: No candidates because javascript is not loading untappd data
         # Docs say I may need to use Splash to make this work...

@@ -96,6 +96,16 @@ def crawl(url: str):
             "RETRY_ENABLED": False,
             "COOKIES_ENABLE": False,
             "REDIRECT_ENABLED": True,
+            "SPLASH_URL": "http://splash:8050",
+            "DOWNLOADER_MIDDLEWARES": {
+                'scrapy_splash.SplashCookiesMiddleware': 723,
+                'scrapy_splash.SplashMiddleware': 725,
+                'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+            },
+            "SPIDER_MIDDLEWARES": {
+                'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
+            },
+            "DUPEFILTER_CLASS": 'scrapy_splash.SplashAwareDupeFilter'
         }
     )
     process.crawl(BeerSpider, url=url, allowed_domains=[parsed_url.hostname])
