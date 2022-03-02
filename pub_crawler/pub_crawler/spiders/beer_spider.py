@@ -263,20 +263,29 @@ class BeerSpider(scrapy.Spider):
         9. Explore spider crashes on long crawls
         10. Change priority of style extraction: Should be 1. Return field, value 2. Get style by tags
         """
+        body = response.body.decode("utf-8")
         self.logger.info("Parse function called on %s", response.url)
-        response_soup = BeautifulSoup(response.body, "html.parser")
+        response_soup = BeautifulSoup(body, "html.parser")
 
         # TODO:
         """
         There is some disconnect here between the return from splash (which should be `response.body`
         and what beautiful soup expects. bs4 does not seem to be able to parse out anything 
         from the resulting render.
+        
+        Here's what we need to debug:
+        
+        1. Understand how to send a basic request to splash standalone
+        2. Stand up splash service as docker container standalone
+        3. Retrieve the response (and more specifically the response.body)
+        4. Compare to the current html 
+        5. Feed into current bs4 via Jupyter and investigate
         """
         names = response_soup.find_all(class_=re.compile("beer-title|beer-name"))
         names_text = [name.text for name in names]
         self.logger.info("%s: all names: %s", response.url, names_text)
         self.logger.info(response.text[:100])
-        self.logger.info(response.body[:100])
+        self.logger.info(body[:100])
         """
         Issues found in logs here, response.text is a string. reponse.body is bstring
         celery_1    | [2022-03-01 03:03:23,509: INFO/ForkPoolWorker-8] <!DOCTYPE html><html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.c
